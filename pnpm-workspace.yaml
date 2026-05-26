@@ -1,0 +1,6 @@
+allowBuilds:
+  '@heroui/shared-utils': true
+  '@tailwindcss/oxide': true
+  '@vercel/speed-insights': true
+  sharp: true
+  unrs-resolver: true
