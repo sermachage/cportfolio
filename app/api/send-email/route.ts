@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
+import { google } from 'googleapis';
 import { createRateLimiter, getClientIp } from '@/lib/rate-limit/rate-limiter';
 
 export async function POST(request: NextRequest) {
@@ -38,21 +39,56 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // Check for required environment variables
-        if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-            console.error('Missing email configuration environment variables');
+        // Check for required OAuth2 environment variables
+        const {
+            EMAIL_USER,
+            EMAIL_CLIENT_ID,
+            EMAIL_CLIENT_SECRET,
+            EMAIL_REFRESH_TOKEN,
+        } = process.env;
+
+        if (
+            !EMAIL_USER ||
+            !EMAIL_CLIENT_ID ||
+            !EMAIL_CLIENT_SECRET ||
+            !EMAIL_REFRESH_TOKEN
+        ) {
+            console.error('Missing Gmail OAuth2 configuration environment variables');
             return NextResponse.json(
                 { message: 'Server configuration error' },
                 { status: 500 }
             );
         }
 
-        // Create transporter using your email service
+        const oAuth2Client = new google.auth.OAuth2(
+            EMAIL_CLIENT_ID,
+            EMAIL_CLIENT_SECRET
+        );
+        oAuth2Client.setCredentials({ refresh_token: EMAIL_REFRESH_TOKEN });
+
+        const accessTokenResponse = await oAuth2Client.getAccessToken();
+        const accessToken =
+            typeof accessTokenResponse === 'string'
+                ? accessTokenResponse
+                : accessTokenResponse?.token;
+
+        if (!accessToken) {
+            console.error('Failed to acquire Gmail OAuth2 access token');
+            return NextResponse.json(
+                { message: 'Server configuration error' },
+                { status: 500 }
+            );
+        }
+
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS,
+                type: 'OAuth2',
+                user: EMAIL_USER,
+                clientId: EMAIL_CLIENT_ID,
+                clientSecret: EMAIL_CLIENT_SECRET,
+                refreshToken: EMAIL_REFRESH_TOKEN,
+                accessToken,
             },
         });
 
