@@ -4,13 +4,13 @@ import { URL } from "url";
 
 const siteName = "Mike Machage";
 const siteDescription = "Mike Machage's portfolio containing his projects, blog posts, resume and contact information.";
-const siteUrl = "https://mikemachage.tech";
+const siteUrl = "https://mikemachage.vercel.app";
 
 export const metadata: Metadata = {
     title: `${siteName} | Software Engineer`,
     description: siteDescription,
     authors: [{ name: "Mike Machage" }],
-    keywords: ["Mike Machage", "Top Software Engineers", "Top Software Engineers in Kenya", "Web Developers in Kenya", "UI/UX Designer", "Full Stack developer", "Software Engineer", "Javascript", "Next.js", "TypeScript", "Portfolio", "Kenya Developer", "Kenya Software Engineer"],
+    keywords: ["Mike Machage", "Top Software Engineers", "Top Software Engineers in Kenya", "Web Developers in Kenya", "Backend Developer", "Full Stack developer", "Software Engineer", "Javascript", "Next.js", "TypeScript", "Portfolio", "Kenya Developer", "Kenya Software Engineer", "Backend Engineer", "Cloud Engineer", "Distributed Systems Engineer", "Microservices Architect", "Google Cloud Engineer"],
     openGraph: {
         title: siteName,
         description: siteDescription,

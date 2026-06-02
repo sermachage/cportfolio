@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const siteDescription = "Mike Machage's portfolio containing his projects, blog posts, resume and contact information.";
-  const siteUrl = "https://mikemachage.tech";
+  const siteUrl = "https://mikemachage.vercel.app";
 
   return (
     <html lang="en" suppressHydrationWarning>
@@ -42,7 +42,7 @@ export default function RootLayout({
               sameAs: [
                 "https://www.linkedin.com/in/mikemachage",
                 "https://x.com/SerMachage",
-                "https://github.com/machage9603",
+                "https://github.com/sermachage",
               ],
               jobTitle: "Software Engineer",
               worksFor: {
